@@ -1,0 +1,9 @@
+name: RankPlugin
+version: ${project.version}
+main: engineer.skyouo.plugins.rankplugin.RankPlugin
+api-version: 1.18
+authors: [ skyouo0727 ]
+depend: [ PlayerTitle ]
+commands:
+  rankexp:
+    usage: /rankexp <about/exp/rank>
