@@ -24,32 +24,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ExperienceUpdateEvent implements Listener {
-    public static final ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
+    public static final ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
     public static final ConcurrentHashMap<Player, Integer> limit = new ConcurrentHashMap<>();
-    public ExperienceUpdateEvent() {
-        GregorianCalendar cal = new GregorianCalendar();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int date = cal.get(Calendar.DATE);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-        int hourScheduled = hour;
-
-        // if we are past the scheduled time then schedule for the next hour
-        if (minute > 0) {
-            ++hourScheduled;
-        }
-
-        cal.set(year, month, date, hourScheduled, 0);
-        long initialDelay = cal.getTimeInMillis() - System.currentTimeMillis();
-        if (initialDelay < 0) {
-            initialDelay = 0L;
-        }
-        // schedule each job for once per hour
-        int period = 60*60*1000;
-
-        executor.scheduleAtFixedRate(() -> limit.clear(), initialDelay, period, TimeUnit.MILLISECONDS);
-    }
+    public ExperienceUpdateEvent() { }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onExperienceUpdate(ExpChangeEvent e) {
@@ -112,9 +89,30 @@ public class ExperienceUpdateEvent implements Listener {
             limit.put(player, x + 1);
 
             if (x + 1 == 500) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6[訊] &f飯娘 : &6您已達到每小時的稱號經驗收益上限, 請休息一會吧."));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6[訊] &f飯娘: &6你已達到稱號經驗收益上限, 請等待一小時後再賺取稱號經驗."));
+                scheduleClear(player);
             }
         }
         return true;
+    }
+
+    private void scheduleClear(Player player) {
+        GregorianCalendar cal = new GregorianCalendar();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int date = cal.get(Calendar.DATE);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int hourScheduled = hour+1;
+
+        cal.set(year, month, date, hourScheduled, minute);
+        long initialDelay = cal.getTimeInMillis() - System.currentTimeMillis();
+        if (initialDelay < 0) {
+            initialDelay = 0L;
+        }
+        // schedule each job for once per hour
+        int period = 60*60*1000;
+
+        executor.scheduleAtFixedRate(() -> limit.put(player, 0), initialDelay, period, TimeUnit.MILLISECONDS);
     }
 }
