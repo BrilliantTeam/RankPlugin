@@ -25,8 +25,12 @@ public class EXPStorage {
         configuration.set(String.valueOf(player.getUniqueId()), data);
     }
 
-    public void shutdown() throws IOException {
+    public void save() throws IOException {
         Objects.requireNonNull(configuration).save(new File("plugins/RankPlugin/data.yml"));
+    }
+
+    public void shutdown() throws IOException {
+        this.save();
         configuration = null;
     }
 

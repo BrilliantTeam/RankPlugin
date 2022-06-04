@@ -14,7 +14,6 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 public final class RankPlugin extends JavaPlugin {
     public static EXPStorage storage;
@@ -35,6 +34,14 @@ public final class RankPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new HarvestBlockEvent(), this);
 
         Bukkit.getPluginManager().registerEvents(new ExperienceUpdateEvent(), this);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            try {
+                storage.save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 20 * 60, 20 * 60);
 
         getCommand("rankexp").setExecutor(new RankExpCommand());
     }
