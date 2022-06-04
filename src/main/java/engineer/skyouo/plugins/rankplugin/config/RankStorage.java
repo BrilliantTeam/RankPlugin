@@ -30,7 +30,7 @@ public class RankStorage {
                 titleListParam.setDay(0);
                 titleListParam.setItemStack(null);
                 titleListParam.setIsHide(1);
-                titleListParam.setDescription("擁有 " + rank.getExpReqiured() + " 點經驗後可解鎖該稱號.");
+                titleListParam.setDescription("擁有 " + rank.getExpRequired() + " 點經驗後可解鎖該稱號.");
 
                 titleListParam.setIsPrefixAndSuffix(true);
 

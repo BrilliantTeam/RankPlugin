@@ -111,7 +111,7 @@ public class RankExpCommand implements TabExecutor {
                                                 .append("距離 ").color(ChatColor.GRAY)
                                                 .append(ChatColor.translateAlternateColorCodes('&', nextLvl.getPrefix()))
                                                 .append(" 還差: ").color(ChatColor.GRAY)
-                                                .append(formatter.format(nextLvl.getExpReqiured() - exp)).color(ChatColor.GOLD)
+                                                .append(formatter.format(nextLvl.getExpRequired() - exp)).color(ChatColor.GOLD)
                                                 .create()
                                 )
                         )

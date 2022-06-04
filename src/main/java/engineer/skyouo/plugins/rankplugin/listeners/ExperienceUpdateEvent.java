@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ExperienceUpdateEvent implements Listener {
     public static final ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
-    public static final ConcurrentHashMap<Player, Integer> limit = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<UUID, Integer> limit = new ConcurrentHashMap<>();
     public ExperienceUpdateEvent() { }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -80,13 +81,13 @@ public class ExperienceUpdateEvent implements Listener {
     private boolean exceedLimit(Player player, ExpChangeEvent.Method method) {
         if (method.equals(ExpChangeEvent.Method.OTHER)) return true;
 
-        Integer x = limit.get(player);
+        Integer x = limit.get(player.getUniqueId());
 
         if (x == null) {
-            limit.put(player, 1);
+            limit.put(player.getUniqueId(), 1);
         } else {
             if (x == 500) return false;
-            limit.put(player, x + 1);
+            limit.put(player.getUniqueId(), x + 1);
 
             if (x + 1 == 500) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &6[訊] &f飯娘: &6你已達到稱號經驗收益上限, 請等待一小時後再賺取稱號經驗."));
@@ -113,6 +114,6 @@ public class ExperienceUpdateEvent implements Listener {
         // schedule each job for once per hour
         int period = 60*60*1000;
 
-        executor.scheduleAtFixedRate(() -> limit.put(player, 0), initialDelay, period, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(() -> limit.put(player.getUniqueId(), 0), initialDelay, period, TimeUnit.MILLISECONDS);
     }
 }
