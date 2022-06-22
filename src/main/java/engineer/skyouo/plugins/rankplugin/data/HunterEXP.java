@@ -34,8 +34,9 @@ public enum HunterEXP implements EXP<EntityType> {
     ZOGLIN(EntityType.ZOGLIN, 1.05),
     SHULKER(EntityType.SHULKER, 0.05),
     ENDERMITE(EntityType.ENDERMITE, 0.05),
-    ENDER_DRAGON(EntityType.ENDER_DRAGON, 100),
-    WITHER(EntityType.WITHER, 50);
+    ENDER_DRAGON(EntityType.ENDER_DRAGON, 50),
+    WITHER(EntityType.WITHER, 10); //,
+    //WARDEN(EntityType.WARDEN, 500);
 
     double exp;
     EntityType entity;

@@ -1,4 +1,5 @@
 package engineer.skyouo.plugins.rankplugin.config;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -17,11 +18,11 @@ public class EXPStorage {
         configuration = YamlConfiguration.loadConfiguration(new File("plugins/RankPlugin/data.yml"));
     }
 
-    public EXPData get(Player player) {
+    public EXPData get(OfflinePlayer player) {
         return (EXPData) configuration.get(String.valueOf(player.getUniqueId()), new EXPData(player, 0.0));
     }
 
-    public void set(Player player, EXPData data) {
+    public void set(OfflinePlayer player, EXPData data) {
         configuration.set(String.valueOf(player.getUniqueId()), data);
     }
 

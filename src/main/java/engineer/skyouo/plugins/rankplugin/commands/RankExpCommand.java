@@ -11,6 +11,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -54,11 +55,12 @@ public class RankExpCommand implements TabExecutor {
                 break;
             }
             case "exp": {
-                Player player = (Player) sender;
+                OfflinePlayer player = (Player) sender;
                 String toCall = "您";
                 if (sender.isOp() && args.length == 2) {
                     player = Bukkit.matchPlayer(args[1]).get(0);
-                    toCall = player.getDisplayName() + " ";
+                    if (player == null) player = Bukkit.getOfflinePlayer(args[1]);
+                    toCall = player.getName() + " ";
                 }
 
                 BaseComponent[] components = new ComponentBuilder()

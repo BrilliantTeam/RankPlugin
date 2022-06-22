@@ -1,5 +1,6 @@
 package engineer.skyouo.plugins.rankplugin.events;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -15,7 +15,7 @@ public class EXPData implements ConfigurationSerializable {
     private String player;
     private double exp;
 
-    public EXPData(Player player, double exp) {
+    public EXPData(OfflinePlayer player, double exp) {
         this.player = player.getUniqueId().toString();
         this.exp = exp;
     }
@@ -35,10 +35,6 @@ public class EXPData implements ConfigurationSerializable {
 
     public double getExp() {
         return exp;
-    }
-
-    public Player getPlayer() {
-        return Bukkit.getPlayer(UUID.fromString(player));
     }
 
     public OfflinePlayer getOfflinePlayer() {
